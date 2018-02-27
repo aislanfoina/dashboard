@@ -513,9 +513,29 @@
 					<div class="col-lg-5">
 						<div class="widget style1 white-bg">
                             <span>Math puzzle of the week</span>
+<?php 
+	$math = $dao['metrics']->getMetricbyName("math_puzzle");
+	$math_lines = explode("\n",$math['description']);
+	foreach ($math_lines as $line) {
+?>
+                            <h2 class="font-bold"><?php echo $line?></h2>
+
+<?php 		
+	}
+	$math_last = $dao['metrics']->getMetricbyName("math_puzzle_last");
+?>
+							<h7 class="font-bold"><br>Last match winner: <?php echo $math_last['value']?></h7>
+<?php 
+	$math_lines = explode("\n",$math_last['description']);
+	foreach ($math_lines as $line) {
+?>
+							<h7 class="font-bold"><br><?php echo $line?></h7>
+<?php
+	}
+?>                            
 <!--                             <h2 class="font-bold">Does the sum of all the squares of numbers from 1 to 2016 is prime? Explain!</h2> -->
-                            <h2 class="font-bold">Can you re-order the integers 1 through 15, inclusive, such that the sum of each pair of adjacent numbers in this list is a perfect square?</h2>
-							<h7 class="font-bold"><br>Last match winner: Trevor</h7>
+<!--                             <h2 class="font-bold">Can you re-order the integers 1 through 15, inclusive, such that the sum of each pair of adjacent numbers in this list is a perfect square?</h2> -->
+<!--  								<h7 class="font-bold"><br>Last match winner: Trevor</h7> -->
 						</div>
 					</div>
 <!-- 					<div class="col-lg-8"> -->
