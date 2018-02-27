@@ -12,6 +12,8 @@
     <script src="js/plugins/dataTables/dataTables.editor.js"></script>
     <script src="js/plugins/dataTables/dataTables.buttons.min.js"></script>
     <script src="js/plugins/dataTables/dataTables.select.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    
     <!--  Datatables -->
 	<link href="css/plugins/dataTables/datatables.min.css" rel="stylesheet">
 	<link href="https://cdn.datatables.net/buttons/1.2.4/css/buttons.dataTables.min.css" rel="stylesheet">

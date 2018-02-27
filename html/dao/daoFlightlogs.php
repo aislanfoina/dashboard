@@ -12,22 +12,23 @@
 class Flightlogs extends Crud{
 	public $creation = "CREATE TABLE `flightlogs` (
 							`id` int(12) unsigned NOT NULL AUTO_INCREMENT,
-							`id_drone` int(9) unsigned NOT NULL,
+							`id_drone` int(9) unsigned NOT NULL DEFAULT 0,
 							`begin` timestamp,
 							`end` timestamp, 
                             `summary` text,
                             `subjects` text,
                             `blocks` text,
-                            `versions` text,
-                            `id_participants` int(6) unsigned NOT NULL DEFAULT 0,
+                            `keywords` text,
+							`versions` text,
+                            `participants` text,
 							`id_status` int(3) unsigned DEFAULT 0,
-							`id_owner` int(6) unsigned NOT NULL,
+							`id_owner` int(6) unsigned NOT NULL DEFAULT 0,
 							`creation_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 							PRIMARY KEY (`id`),
 							KEY `id` (`id`)
 						)";
 	
-	public $fields = array("flightlogs.id", "flightlogs.location", "flightlogs.begin", "flightlogs.end", "flightlogs.id_owner",
+	public $fields = array("flightlogs.id", "flightlogs.id_drone", "flightlogs.begin", "flightlogs.end", "flightlogs.summary", "flightlogs.subjects", "flightlogs.blocks", "flightlogs.keywords", "flightlogs.versions", "flightlogs.participants", "flightlogs.id_owner",
 						"drones.name",
 						"status.status");
 	public $join = "LEFT JOIN drones ON flightlogs.id_drone = drones.id
@@ -36,26 +37,25 @@ class Flightlogs extends Crud{
 	public function __construct($cred){
 		parent::__construct($cred);
 		$this->table = "flightlogs";
-		$this->checkTable();
+		if(!$this->checkTable()) {
+			$data['id_drone'] = "1";
+			$data['begin'] = "2018-02-26 12:00:00";
+			$data['end'] = "2018-02-26 14:00:00";
+			$data['summary'] = "Dummy test report";
+			$data['subjects'] = "Test Dashboard features";
+			$data['blocks'] = "vision,flight,dispatch";
+			$data['keywords'] = "crash";
+			$data['versions'] = "gs_6.6,vision_10,flight_11";
+			$data['participants'] = "Aislan,Guy";
+			$data['id_status'] = "1";
+			$data['id_owner'] = "0";
+			$this->insert($data);
+		}
 	}
 	
 	public function getFlightbyId($id) {
 		$where = "flightlogs.id = '$id'";
 		return $this->read($this->fields,$where,null,null,null,$this->join);
-	}
-	
-	public function beginFlight($id) {
-		$data['id_status'] = 5;
-		$data['begin'] = date("Y-m-d H:i:s");
-		$where = "id = '$id'";
-		return $this->update($data, $where);
-	}
-	
-	public function endFlight($id) {
-		$data['id_status'] = 6;
-		$data['end'] = date("Y-m-d H:i:s");
-		$where = "id = '$id'";
-		return $this->update($data, $where);
 	}
 	
 	public function savebyPrefixSpecial($prefix, $arr) {

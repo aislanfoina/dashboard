@@ -118,19 +118,29 @@ class Metrics extends Crud{
 	    $ret = $this->read($this->fields,$where,null,null,null,$this->join);
 	    if(count($ret)>0)
 	        return $ret[0];
-	    else
+	    else {
+	        $data['name'] = $name;
+	        $this->insert($data);
 	        return false;
+	    }
 	}
 
-	public function getMetricValuebyName($name) {
+	public function getMetricValuebyName($name, $value = false) {
 	    $where = "metrics.name LIKE '$name'";
 	    $ret = $this->read($this->fields,$where,null,null,null,$this->join);
 	    if(count($ret)>0) {
             $row = $ret[0];
             return $row['value'].($row['unit']!="undef"?$row['unit']:"");
 	    }
-        else
-            return false;
+	    else {
+	        if($value !== false) {
+    	        $data['name'] = $name;
+    	        $data['value'] = $value;
+    	        $this->insert($data);
+    	        return $this->getMetricValuebyName($name);
+	        }
+	        else return false;
+	    }
 	}
 	
 	public function getMetricColorbyName($name) {
@@ -174,8 +184,11 @@ class Metrics extends Crud{
 	        $row = $ret[0];
 	        return $row['ideal_value'].($row['unit']!="undef"?$row['unit']:"");
 	    }
-	    else
+	    else {
+	        $data['name'] = $name;
+	        $this->insert($data);
 	        return false;
+	    }
 	}
 	
 	public function getMetrics($where = null, $order = null) {

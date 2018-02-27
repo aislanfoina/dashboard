@@ -150,55 +150,55 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        <button type="button" class="btn btn-info m-r-sm"><?php echo $dao['metrics']->getMetricValuebyName("gs_msg_s")?></button>
+                                        <button type="button" class="btn btn-info m-r-sm"><?php echo $dao['metrics']->getMetricValuebyName("detect_reliability_pc", 0)?></button>
                                         Detection reliability
                                     </td>
                                     <td>
-                                        <button type="button" class="btn btn-success m-r-sm"><?php echo $dao['metrics']->getMetricValuebyName("vis_detection_%")?></button>
+                                        <button type="button" class="btn btn-success m-r-sm"><?php echo $dao['metrics']->getMetricValuebyName("vis_lr_detection_pc", 0)?></button>
                                         Long range detection rate
                                     </td>
                                     <td>
-                                        <button type="button" class="btn btn-success m-r-sm"><?php echo $dao['metrics']->getMetricValuebyName("vis_detection_%")?></button>
+                                        <button type="button" class="btn btn-success m-r-sm"><?php echo $dao['metrics']->getMetricValuebyName("vis_sr_detection_pc", 0)?></button>
                                         Short range detection rate
                                     </td>
                                     <td>
-                                        <button type="button" class="btn btn-danger m-r-sm"><?php echo $dao['metrics']->getMetricValuebyName("fly_dispatch_precision_%")?></button>
+                                        <button type="button" class="btn btn-danger m-r-sm"><?php echo $dao['metrics']->getMetricValuebyName("fly_dispatch_precision_pc", 0)?></button>
                                         GPS dispatch stability
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <button type="button" class="btn btn-warning m-r-sm"><?php echo $dao['metrics']->getMetricValuebyName("gs_detect_m")?></button>
+                                        <button type="button" class="btn btn-warning m-r-sm"><?php echo $dao['metrics']->getMetricValuebyName("gs_c2_reliability_pc", 0)?></button>
                                         C2 link reliability
                                     </td>
                                     <td>
-                                        <button type="button" class="btn btn-default m-r-sm"><?php echo $dao['metrics']->getMetricValuebyName("vis_tracking_%")?></button>
+                                        <button type="button" class="btn btn-default m-r-sm"><?php echo $dao['metrics']->getMetricValuebyName("vis_lr_detection_m", 0)?></button>
                                         Long range detection range
                                     </td>
                                     <td>
-                                        <button type="button" class="btn btn-default m-r-sm"><?php echo $dao['metrics']->getMetricValuebyName("vis_tracking_%")?></button>
+                                        <button type="button" class="btn btn-default m-r-sm"><?php echo $dao['metrics']->getMetricValuebyName("vis_sr_detection_m", 0)?></button>
                                         Short range detection range
                                     </td>
                                     <td>
-                                        <button type="button" class="btn btn-warning m-r-sm"><?php echo $dao['metrics']->getMetricValuebyName("fly_interdict_s")?></button>
+                                        <button type="button" class="btn btn-warning m-r-sm"><?php echo $dao['metrics']->getMetricValuebyName("fly_interdict_pc", 0)?></button>
                                         Interdiction success rate
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <button type="button" class="btn btn-success m-r-sm"><?php echo $dao['metrics']->getMetricValuebyName("gs_avg_pkt_ms")?></button>
+                                        <button type="button" class="btn btn-success m-r-sm"><?php echo $dao['metrics']->getMetricValuebyName("gs_control_reliability_pc", 0)?></button>
                                         Control Reliability
                                     </td>
                                     <td>
-                                        <button type="button" class="btn btn-info m-r-sm"><?php echo $dao['metrics']->getMetricValuebyName("vis_detection_m")?></button>
+                                        <button type="button" class="btn btn-info m-r-sm"><?php echo $dao['metrics']->getMetricValuebyName("vis_detection_pc", 0)?></button>
                                         Detection accuracy
                                     </td>
                                     <td>
-                                        <button type="button" class="btn btn-info m-r-sm"><?php echo $dao['metrics']->getMetricValuebyName("vis_detection_m")?></button>
+                                        <button type="button" class="btn btn-info m-r-sm"><?php echo $dao['metrics']->getMetricValuebyName("vis_tracking_pc", 0)?></button>
                                         Tracking consistency
                                     </td>
                                     <td>
-                                        <button type="button" class="btn btn-default m-r-sm"><?php echo $dao['metrics']->getMetricValuebyName("fly_dispatch_spd_ms")?></button>
+                                        <button type="button" class="btn btn-default m-r-sm"><?php echo $dao['metrics']->getMetricValuebyName("fly_hardware_idx", 0)?></button>
                                         Hardware
                                     </td>
                                 </tr>
@@ -221,7 +221,7 @@
                                 <div>
                                     <div>
                                         <span>Dispatch speed</span>
-                                        <small class="pull-right"><?php echo $dao['metrics']->getMetricValuebyName("fly_spd_ms")?> > <?php echo $dao['metrics']->getMetricIdealbyName("fly_spd_ms")?></small>
+                                        <small class="pull-right"><?php echo $dao['metrics']->getMetricValuebyName("fly_dispatch_ms", 10)?> > <?php echo $dao['metrics']->getMetricIdealbyName("fly_dispatch_ms")?></small>
                                     </div>
                                     <div class="progress progress-small">
                                         <div style="width: 60%;" class="progress-bar"></div>
@@ -229,7 +229,7 @@
     
                                     <div>
                                         <span>Interdiction closing speed</span>
-                                        <small class="pull-right"><?php echo $dao['metrics']->getMetricValuebyName("fly_range_m")?> > <?php echo $dao['metrics']->getMetricIdealbyName("fly_range_m")?></small>
+                                        <small class="pull-right"><?php echo $dao['metrics']->getMetricValuebyName("fly_closing_speed_ms", 5)?> > <?php echo $dao['metrics']->getMetricIdealbyName("fly_closing_speed_ms")?></small>
                                     </div>
                                     <div class="progress progress-small">
                                         <div style="width: 50%;" class="progress-bar"></div>
@@ -237,7 +237,7 @@
     
                                     <div>
                                         <span>Max successful interdiction range</span>
-                                        <small class="pull-right"><?php echo $dao['metrics']->getMetricValuebyName("interdict_s")?> > <?php echo $dao['metrics']->getMetricIdealbyName("interdict_s")?></small>
+                                        <small class="pull-right"><?php echo $dao['metrics']->getMetricValuebyName("interdiction_range_m", 20)?> > <?php echo $dao['metrics']->getMetricIdealbyName("interdiction_range_m")?></small>
                                     </div>
                                     <div class="progress progress-small">
                                         <div style="width: 40%;" class="progress-bar"></div>
@@ -245,7 +245,7 @@
     
                                     <div>
                                         <span>Highest interdiction difficulty rating</span>
-                                        <small class="pull-right"><?php echo $dao['metrics']->getMetricValuebyName("punch_m")?> > <?php echo $dao['metrics']->getMetricIdealbyName("punch_m")?></small>
+                                        <small class="pull-right"><?php echo $dao['metrics']->getMetricValuebyName("punch_idx", 3)?> > <?php echo $dao['metrics']->getMetricIdealbyName("punch_idx")?></small>
                                     </div>
                                     <div class="progress progress-small">
                                         <div style="width: 20%;" class="progress-bar progress-bar-danger"></div>
