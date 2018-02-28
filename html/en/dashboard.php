@@ -37,7 +37,7 @@
                                     </div>
                                     <div class="col-xs-9 text-right">
                                         <span>Insect flights this week</span>
-                                        <h2 class="font-bold" style="font-size:90px"><?php echo $dao['metrics']->getMetricValuebyName("insect_flights_this_week")?></h2>
+                                        <h2 class="font-bold" style="font-size:90px"><?php echo $dao['metrics']->getMetricValuebyName("insect_flights_this_week", 0)?></h2>
                                     </div>
                                 </div>
                         </div>
@@ -51,7 +51,7 @@
                                     </div>
                                     <div class="col-xs-9 text-right">
                                         <span>QAV flights this week</span>
-                                        <h2 class="font-bold" style="font-size:90px"><?php echo $dao['metrics']->getMetricValuebyName("qav_flights_this_week")?></h2>
+                                        <h2 class="font-bold" style="font-size:90px"><?php echo $dao['metrics']->getMetricValuebyName("qav_flights_this_week", 0)?></h2>
                                     </div>
                                 </div>
                         </div>
@@ -65,7 +65,7 @@
                                 </div>
                                 <div class="col-xs-9 text-right">
                                     <span>Total flights last week</span>
-                                    <h2 class="font-bold" style="font-size:90px"><?php echo $dao['metrics']->getMetricValuebyName("flights_last_week")?></h2>
+                                    <h2 class="font-bold" style="font-size:90px"><?php echo $dao['metrics']->getMetricValuebyName("flights_last_week", 0)?></h2>
                                 </div>
                             </div>
                         </div>
@@ -79,7 +79,7 @@
                                 </div>
                                 <div class="col-xs-9 text-right">
                                     <span>Days without crash</span>
-                                    <h2 class="font-bold" style="font-size:90px"><?php echo round((time() - strtotime($dao['metrics']->getMetricValuebyName("last_crash")))/(60*60*24))?></h2>
+                                    <h2 class="font-bold" style="font-size:90px"><?php echo round((time() - strtotime($dao['metrics']->getMetricValuebyName("last_crash", "2018-02-20")))/(60*60*24))?></h2>
                                 </div>
                             </div>
                         </div>
@@ -107,7 +107,7 @@
                                 </div>
                                 <div class="col-xs-9 text-right">
                                     <span>Days since last interdiction</span>
-                                    <h2 class="font-bold" style="font-size:90px"><?php echo round((time() - strtotime($dao['metrics']->getMetricValuebyName("last_interdiction")))/(60*60*24))?></h2>
+                                    <h2 class="font-bold" style="font-size:90px"><?php echo round((time() - strtotime($dao['metrics']->getMetricValuebyName("last_interdiction", "2018-02-20")))/(60*60*24))?></h2>
                                 </div>
                             </div>
                         </div>

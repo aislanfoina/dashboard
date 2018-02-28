@@ -25,7 +25,7 @@ class Metrics extends Crud{
 							KEY `id` (`id`)
 						)";
 	
-	public $fields = array("metrics.id", "metrics.name", "metrics.description", "metrics.unit", "metrics.value", "metrics.ideal_value",
+	public $fields = array("metrics.id", "metrics.name", "metrics.description", "metrics.unit", "metrics.value", "metrics.ideal_value", "metrics.creation_date",
 						"status.status");
 	public $join = "LEFT JOIN status ON metrics.id_status = status.id";
 
@@ -115,7 +115,8 @@ class Metrics extends Crud{
 
 	public function getMetricbyName($name) {
 	    $where = "metrics.name LIKE '$name'";
-	    $ret = $this->read($this->fields,$where,null,null,null,$this->join);
+	    $order = "metrics.id DESC";
+	    $ret = $this->read($this->fields,$where,null,null,$order,$this->join);
 	    if(count($ret)>0)
 	        return $ret[0];
 	    else {
@@ -127,7 +128,8 @@ class Metrics extends Crud{
 
 	public function getMetricValuebyName($name, $value = false) {
 	    $where = "metrics.name LIKE '$name'";
-	    $ret = $this->read($this->fields,$where,null,null,null,$this->join);
+	    $order = "metrics.id DESC";
+	    $ret = $this->read($this->fields,$where,null,null,$order,$this->join);
 	    if(count($ret)>0) {
             $row = $ret[0];
             return $row['value'].($row['unit']!="undef"?$row['unit']:"");
@@ -145,7 +147,8 @@ class Metrics extends Crud{
 	
 	public function getMetricColorbyName($name) {
 	    $where = "metrics.name LIKE '$name'";
-	    $ret = $this->read($this->fields,$where,null,null,null,$this->join);
+	    $order = "metrics.id DESC";
+	    $ret = $this->read($this->fields,$where,null,null,$order,$this->join);
 	    if(count($ret)>0) {
 	        $row = $ret[0];
 	        switch ($name) {
@@ -179,7 +182,8 @@ class Metrics extends Crud{
 	
 	public function getMetricIdealbyName($name) {
 	    $where = "metrics.name LIKE '$name'";
-	    $ret = $this->read($this->fields,$where,null,null,null,$this->join);
+	    $order = "metrics.id DESC";
+	    $ret = $this->read($this->fields,$where,null,null,$order,$this->join);
 	    if(count($ret)>0) {
 	        $row = $ret[0];
 	        return $row['ideal_value'].($row['unit']!="undef"?$row['unit']:"");

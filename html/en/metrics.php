@@ -1,6 +1,6 @@
 <?php require("../common/config.php")?>
 <?php 
-$aliases = $dao['metrics']->get();
+$aliases = $dao['metrics']->get(null, "metrics.name DESC, metrics.creation_date DESC");
 ?>
 <!DOCTYPE html>
 <html>
@@ -67,6 +67,7 @@ $aliases = $dao['metrics']->get();
 					                <th>unit</th>
 					                <th>value</th>
 					                <th>ideal_value</th>
+					                <th>creation_date</th>
 					            </tr>
 				            </thead>
 				            <tbody>
@@ -86,6 +87,7 @@ $aliases = $dao['metrics']->get();
 					                <td><?php echo $unit?></td>
 					                <td><?php echo $value?></td>
 					                <td><?php echo $ideal_value?></td>
+					                <td><?php echo $alias['creation_date']?></td>
 					            </tr>
 <?php } ?>	            
 				            </tbody>
@@ -154,7 +156,8 @@ $(document).ready(function() {
    	    	{ data: 'metrics.description' },
    	    	{ data: 'metrics.unit' },
    	    	{ data: 'metrics.value' },
-   	        { data: 'metrics.ideal_value' }
+   	        { data: 'metrics.ideal_value' },
+   	        { data: 'metrics.creation_date' }
 		]
      });
 
