@@ -176,8 +176,16 @@ class Metrics extends Crud{
 	                break;
 	        }
 	    }
-	    else
-	        return "grey-bg";
+	    else {
+	        switch ($name) {
+	            case "open_bugs":
+	                return "blue-bg";
+	                break;
+	            default:
+	                return "grey-bg";
+	                break;
+	        }
+	    }
 	}
 	
 	public function getMetricIdealbyName($name) {
