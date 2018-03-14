@@ -1,4 +1,38 @@
 <?php require("../common/config.php")?>
+<?php 
+date_default_timezone_set('America/Los_Angeles');
+
+$weatherData = file_get_contents("http://api.openweathermap.org/data/2.5/forecast?q=San%20Leandro,us&appid=ab04cc56804c8c913022bdff4984e69c");
+$weatherJson = json_decode($weatherData);
+$weatherList = $weatherJson->list;
+
+$d = array();
+$d[0] = array();
+$d[1] = array();
+$d[2] = array();
+
+$dayToday = date("d");
+$dayTomorrow = date("d", strtotime("+1 day"));
+$dayAfter = date("d", strtotime("+2 day"));
+$now = time();
+
+foreach($weatherList as $weather) {
+    $dt = $weather->dt;
+    $day = date("d", $dt);
+    $daydiff = (int)(abs(($now - $dt)/(60*60*24)));
+    $hour = date("G", $dt);
+    if($hour > 9 && $hour <= 18) {
+        if($day == $dayToday) {
+            $d[0][$hour] = $weather->weather[0]->description;
+        } else if($day == $dayTomorrow) {
+            $d[1][$hour] = $weather->weather[0]->description;
+        } else if($day == $dayAfter) {
+            $d[2][$hour] = $weather->weather[0]->description;
+        }
+    }
+}
+// print_r($d);
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,7 +49,7 @@
 
 		<div id="page-wrapper" class="gray-bg" style="margin-left: 0px;">
 <?php //include("part_topbar.php")?>          
-            <div class="wrapper wrapper-content">
+<!--             <div class="wrapper wrapper-content"> -->
 <?php include("part_msghandling.php")?>
 <?php include("part_scripts.php")?>
 <!-- 				<div class="row"> -->
@@ -129,7 +163,7 @@
                     </div>-->                    
                 </div>
 
-        		<div class="row m-t-lg">
+        		<div class="row">
                     <div class="col-lg-6">
                         <div>
                             <table class="table">
@@ -206,17 +240,48 @@
                             </table>
                         </div>
                     </div>
-                    <div class="col-lg-6">
-                        <div class="col-md-6">
-    						<div class="ibox-content text-center">
-                                <h3>Picture of the week</h3>
-                                <div class="m-b-sm">
-									<img alt="image" class="img-rounded" src="img/picture_week.jpg" style="max-height: 120px; max-width: 120px;">
-                                </div>
-                                <p class="font-bold"></p>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
+                    <div class="col-lg-3">
+						<div class="ibox float-e-margins">
+							<div class="ibox-title">
+								<h5>Messages</h5>
+								<div class="ibox-tools">
+									<a class="collapse-link"> <i class="fa fa-chevron-up"></i>
+									</a> <a class="close-link"> <i class="fa fa-times"></i>
+									</a>
+								</div>
+							</div>
+<!-- 							<div class="ibox-content ibox-heading"> -->
+<!-- 								<h3> -->
+<!-- 									<i class="fa fa-envelope-o"></i> New messages -->
+<!-- 								</h3> -->
+<!-- 								<small><i class="fa fa-tim"></i> You have 22 new messages and 16 -->
+<!-- 									waiting in draft folder.</small> -->
+<!-- 							</div> -->
+							<div class="ibox-content">
+								<div class="feed-activity-list">
+
+									<div class="feed-element">
+										<div>
+											<small class="pull-right text-navy">1m ago</small> <strong>Monica
+												Smith</strong>
+											<div>Demo investory XYZ</div>
+											<small class="text-muted">Today 3:00 pm - 12.06.2018</small>
+										</div>
+									</div>
+
+									<div class="feed-element">
+										<div>
+											<small class="pull-right">2m ago</small> <strong>Jogn Angel</strong>
+											<div>Barbeque day on the field</div>
+											<small class="text-muted">in 3 weeks 2:23 pm - 14.04.2018</small>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+                        <div class="col-md-3">
 <!--                             <div class="ibox-content"> -->
                                 <div>
                                     <div>
@@ -254,7 +319,7 @@
 <!--                             </div> -->
                         </div>
 					</div>
-                </div>
+<!--                 </div> -->
 <!--         				
         		<div class="row">
 					<div class="col-lg-3">
@@ -372,361 +437,163 @@
 
 
 				<div class="row">
-					<div class="col-xs-12">
-						<h4 class="font-bold">Flights this week</h4>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-lg-2">
-						<div class="ibox float-e-margins">
-							<div class="ibox-title">
-								<span class="label label-primary pull-right">Success</span>
-								<h5>Monday</h5>
+					<div class="col-lg-6">
+						<div class="ibox-content text-center">
+                            <h3>Picture of the week</h3>
+                            <div class="m-b-sm">
+								<img alt="image" class="img-rounded" src="img/picture_week.jpg" style="max-height: 480px; max-width: 480px;">
+                            </div>
+                            <p class="font-bold"></p>
+                        </div>
+                    </div>
+					
+					<div class="col-lg-6">
+						<div class="row">
+							<div class="col-xs-12">
+								<h4 class="font-bold">Flights this week</h4>
 							</div>
-							<div class="ibox-content">
-								<h1 class="no-margins">Vision</h1>
-<!-- 								<div class="stat-percent font-bold text-success"> -->
-<!-- 									98% <i class="fa fa-bolt"></i> -->
-<!-- 								</div> -->
-<!-- 								<small>Flights</small> -->
+							<div class="row">
+    							<div class="col-lg-4">
+            						<div class="ibox float-e-margins">
+            							<div class="ibox-title">
+            								<span class="label label-primary pull-right">Success</span>
+            								<h5>3d ago</h5>
+            							</div>
+            							<div class="ibox-content">
+            								<h1 class="no-margins">Vision</h1>
+            <!-- 								<div class="stat-percent font-bold text-success"> -->
+            <!-- 									98% <i class="fa fa-bolt"></i> -->
+            <!-- 								</div> -->
+            <!-- 								<small>Flights</small> -->
+            							</div>
+            						</div>
+            					</div>
+            					<div class="col-lg-4">
+            						<div class="ibox float-e-margins">
+            							<div class="ibox-title">
+            								<span class="label label-danger pull-right">Crash</span>
+            								<h5>2d ago</h5>
+            							</div>
+            							<div class="ibox-content">
+            								<h1 class="no-margins">Dispatch</h1>
+            <!-- 								<div class="stat-percent font-bold text-success"> -->
+            <!-- 									98% <i class="fa fa-bolt"></i> -->
+            <!-- 								</div> -->
+            <!-- 								<small>Flights</small> -->
+            							</div>
+            						</div>
+            					</div>
+            					<div class="col-lg-4">
+            						<div class="ibox float-e-margins">
+            							<div class="ibox-title">
+            								<span class="label label-warning pull-right">Partial</span>
+            								<h5>Yesterday</h5>
+            							</div>
+            							<div class="ibox-content">
+            								<h1 class="no-margins">Dispatch</h1>
+            <!-- 								<div class="stat-percent font-bold text-success"> -->
+            <!-- 									98% <i class="fa fa-bolt"></i> -->
+            <!-- 								</div> -->
+            <!-- 								<small>Flights</small> -->
+            							</div>
+            						</div>
+            					</div>
+            				</div>
+            				<div class="row">
+            					<div class="col-lg-4">
+            						<div class="ibox float-e-margins">
+            							<div class="ibox-title">
+            								<span class="label label-danger pull-right">Fail</span>
+            								<h5>Today</h5>
+            							</div>
+            							<div class="ibox-content">
+            								<div class="row">
+                								<div class="col-xs-6">
+                									<h1 class="no-margins">DIUx</h1>
+                								</div>
+                								<div class="col-xs-6">
+<?php foreach ($d[0] as $hr=>$slot) { ?>
+                									<h3><?php echo ($hr-3)."-".$hr." $slot"?></h3>
+<?php } ?>
+    											</div>           
+											</div> 								
+            							</div>
+            						</div>
+            					</div>
+            					<div class="col-lg-4">
+            						<div class="ibox float-e-margins">
+            							<div class="ibox-title">
+            								<span class="label label-success pull-right">Scheduled</span>
+            								<h5>Tomorrow</h5>
+            							</div>
+            							<div class="ibox-content">
+            								<div class="row">
+                								<div class="col-xs-6">
+                									<h1 class="no-margins">DIUx</h1>
+                								</div>
+                								<div class="col-xs-6">
+<?php foreach ($d[1] as $hr=>$slot) { ?>
+                									<h3><?php echo ($hr-3)."-".$hr." $slot"?></h3>
+<?php } ?>
+    											</div>           
+											</div> 								
+            							</div>
+            						</div>
+            					</div>
+            					<div class="col-lg-4">
+            						<div class="ibox float-e-margins">
+            							<div class="ibox-title">
+            								<span class="label label-info pull-right">Cancelled</span>
+            								<h5>Day after</h5>
+            							</div>
+            							<div class="ibox-content">
+            								<div class="row">
+                								<div class="col-xs-6">
+                									<h1 class="no-margins">DIUx</h1>
+                								</div>
+                								<div class="col-xs-6">
+<?php foreach ($d[2] as $hr=>$slot) { ?>
+               									<h3><?php echo ($hr-3)."-".$hr." $slot"?></h3>
+<?php } ?>
+    											</div>           
+											</div> 								
+            							</div>
+            						</div>
+            					</div>
+            				</div>
+							<div class="row">
+            					<div class="col-lg-12">
+            						<div class="widget style1 white-bg">
+                                        <span>Math puzzle of the week</span>
+            <?php 
+            	$math = $dao['metrics']->getMetricbyName("math_puzzle");
+            	$math_lines = explode("\n",$math['description']);
+            	foreach ($math_lines as $line) {
+            ?>
+                                        <h2 class="font-bold"><?php echo $line?></h2>
+            
+            <?php 		
+            	}
+            	$math_last = $dao['metrics']->getMetricbyName("math_puzzle_last");
+            ?>
+            							<h7 class="font-bold"><br>Last match winner: <?php echo $math_last['value']?></h7>
+            <?php 
+            	$math_lines = explode("\n",$math_last['description']);
+            	foreach ($math_lines as $line) {
+            ?>
+            							<h7 class="font-bold"><br><?php echo $line?></h7>
+            <?php
+            	}
+            ?>                            
+            <!--                             <h2 class="font-bold">Does the sum of all the squares of numbers from 1 to 2016 is prime? Explain!</h2> -->
+            <!--                             <h2 class="font-bold">Can you re-order the integers 1 through 15, inclusive, such that the sum of each pair of adjacent numbers in this list is a perfect square?</h2> -->
+            <!--  								<h7 class="font-bold"><br>Last match winner: Trevor</h7> -->
+            						</div>
+            					</div>
+							
 							</div>
 						</div>
 					</div>
-					<div class="col-lg-2">
-						<div class="ibox float-e-margins">
-							<div class="ibox-title">
-								<span class="label label-danger pull-right">Crash</span>
-								<h5>Tuesday</h5>
-							</div>
-							<div class="ibox-content">
-								<h1 class="no-margins">Dispatch</h1>
-<!-- 								<div class="stat-percent font-bold text-success"> -->
-<!-- 									98% <i class="fa fa-bolt"></i> -->
-<!-- 								</div> -->
-<!-- 								<small>Flights</small> -->
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-2">
-						<div class="ibox float-e-margins">
-							<div class="ibox-title">
-								<span class="label label-warning pull-right">Partial</span>
-								<h5>Wednesday</h5>
-							</div>
-							<div class="ibox-content">
-								<h1 class="no-margins">DIUx</h1>
-<!-- 								<div class="stat-percent font-bold text-success"> -->
-<!-- 									98% <i class="fa fa-bolt"></i> -->
-<!-- 								</div> -->
-<!-- 								<small>Flights</small> -->
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-2">
-						<div class="ibox float-e-margins">
-							<div class="ibox-title">
-								<span class="label label-danger pull-right">Fail</span>
-								<h5>Thursday</h5>
-							</div>
-							<div class="ibox-content">
-								<h1 class="no-margins">Vision</h1>
-<!-- 								<div class="stat-percent font-bold text-success"> -->
-<!-- 									98% <i class="fa fa-bolt"></i> -->
-<!-- 								</div> -->
-<!-- 								<small>Flights</small> -->
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-2">
-						<div class="ibox float-e-margins">
-							<div class="ibox-title">
-								<span class="label label-success pull-right">Scheduled</span>
-								<h5>Friday</h5>
-							</div>
-							<div class="ibox-content">
-								<h1 class="no-margins">Insect</h1>
-<!-- 								<div class="stat-percent font-bold text-success"> -->
-<!-- 									98% <i class="fa fa-bolt"></i> -->
-<!-- 								</div> -->
-<!-- 								<small>Flights</small> -->
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-2">
-						<div class="ibox float-e-margins">
-							<div class="ibox-title">
-								<span class="label label-info pull-right">Cancelled</span>
-								<h5>Next Monday</h5>
-							</div>
-							<div class="ibox-content">
-								<h1 class="no-margins">GS</h1>
-<!-- 								<div class="stat-percent font-bold text-success"> -->
-<!-- 									98% <i class="fa fa-bolt"></i> -->
-<!-- 								</div> -->
-<!-- 								<small>Flights</small> -->
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="row">
-					<div class="col-lg-7">
-						<div class="ibox float-e-margins">
-							<div class="ibox-title">
-								<h5>Messages</h5>
-								<div class="ibox-tools">
-									<a class="collapse-link"> <i class="fa fa-chevron-up"></i>
-									</a> <a class="close-link"> <i class="fa fa-times"></i>
-									</a>
-								</div>
-							</div>
-<!-- 							<div class="ibox-content ibox-heading"> -->
-<!-- 								<h3> -->
-<!-- 									<i class="fa fa-envelope-o"></i> New messages -->
-<!-- 								</h3> -->
-<!-- 								<small><i class="fa fa-tim"></i> You have 22 new messages and 16 -->
-<!-- 									waiting in draft folder.</small> -->
-<!-- 							</div> -->
-							<div class="ibox-content">
-								<div class="feed-activity-list">
-
-									<div class="feed-element">
-										<div>
-											<small class="pull-right text-navy">1m ago</small> <strong>Monica
-												Smith</strong>
-											<div>Demo investory XYZ</div>
-											<small class="text-muted">Today 3:00 pm - 12.06.2018</small>
-										</div>
-									</div>
-
-									<div class="feed-element">
-										<div>
-											<small class="pull-right">2m ago</small> <strong>Jogn Angel</strong>
-											<div>Barbeque day on the field</div>
-											<small class="text-muted">in 3 weeks 2:23 pm - 14.04.2018</small>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-5">
-						<div class="widget style1 white-bg">
-                            <span>Math puzzle of the week</span>
-<?php 
-	$math = $dao['metrics']->getMetricbyName("math_puzzle");
-	$math_lines = explode("\n",$math['description']);
-	foreach ($math_lines as $line) {
-?>
-                            <h2 class="font-bold"><?php echo $line?></h2>
-
-<?php 		
-	}
-	$math_last = $dao['metrics']->getMetricbyName("math_puzzle_last");
-?>
-							<h7 class="font-bold"><br>Last match winner: <?php echo $math_last['value']?></h7>
-<?php 
-	$math_lines = explode("\n",$math_last['description']);
-	foreach ($math_lines as $line) {
-?>
-							<h7 class="font-bold"><br><?php echo $line?></h7>
-<?php
-	}
-?>                            
-<!--                             <h2 class="font-bold">Does the sum of all the squares of numbers from 1 to 2016 is prime? Explain!</h2> -->
-<!--                             <h2 class="font-bold">Can you re-order the integers 1 through 15, inclusive, such that the sum of each pair of adjacent numbers in this list is a perfect square?</h2> -->
-<!--  								<h7 class="font-bold"><br>Last match winner: Trevor</h7> -->
-						</div>
-					</div>
-<!-- 					<div class="col-lg-8"> -->
-
-<!-- 						<div class="row"> -->
-<!-- 							<div class="col-lg-6"> -->
-<!-- 								<div class="ibox float-e-margins"> -->
-<!-- 									<div class="ibox-title"> -->
-<!-- 										<h5>User project list</h5> -->
-<!-- 										<div class="ibox-tools"> -->
-<!-- 											<a class="collapse-link"> <i class="fa fa-chevron-up"></i> -->
-<!-- 											</a> <a class="close-link"> <i class="fa fa-times"></i> -->
-<!-- 											</a> -->
-<!-- 										</div> -->
-<!-- 									</div> -->
-<!-- 									<div class="ibox-content"> -->
-<!-- 										<table class="table table-hover no-margins"> -->
-<!-- 											<thead> -->
-<!-- 												<tr> -->
-<!-- 													<th>Status</th> -->
-<!-- 													<th>Date</th> -->
-<!-- 													<th>User</th> -->
-<!-- 													<th>Value</th> -->
-<!-- 												</tr> -->
-<!-- 											</thead> -->
-<!-- 											<tbody> -->
-<!-- 												<tr> -->
-<!-- 													<td><small>Pending...</small></td> -->
-<!-- 													<td><i class="fa fa-clock-o"></i> 11:20pm</td> -->
-<!-- 													<td>Samantha</td> -->
-<!-- 													<td class="text-navy"><i class="fa fa-level-up"></i> 24%</td> -->
-<!-- 												</tr> -->
-<!-- 												<tr> -->
-<!-- 													<td><span class="label label-warning">Canceled</span></td> -->
-<!-- 													<td><i class="fa fa-clock-o"></i> 10:40am</td> -->
-<!-- 													<td>Monica</td> -->
-<!-- 													<td class="text-navy"><i class="fa fa-level-up"></i> 66%</td> -->
-<!-- 												</tr> -->
-<!-- 												<tr> -->
-<!-- 													<td><small>Pending...</small></td> -->
-<!-- 													<td><i class="fa fa-clock-o"></i> 01:30pm</td> -->
-<!-- 													<td>John</td> -->
-<!-- 													<td class="text-navy"><i class="fa fa-level-up"></i> 54%</td> -->
-<!-- 												</tr> -->
-<!-- 												<tr> -->
-<!-- 													<td><small>Pending...</small></td> -->
-<!-- 													<td><i class="fa fa-clock-o"></i> 02:20pm</td> -->
-<!-- 													<td>Agnes</td> -->
-<!-- 													<td class="text-navy"><i class="fa fa-level-up"></i> 12%</td> -->
-<!-- 												</tr> -->
-<!-- 												<tr> -->
-<!-- 													<td><small>Pending...</small></td> -->
-<!-- 													<td><i class="fa fa-clock-o"></i> 09:40pm</td> -->
-<!-- 													<td>Janet</td> -->
-<!-- 													<td class="text-navy"><i class="fa fa-level-up"></i> 22%</td> -->
-<!-- 												</tr> -->
-<!-- 												<tr> -->
-<!-- 													<td><span class="label label-primary">Completed</span></td> -->
-<!-- 													<td><i class="fa fa-clock-o"></i> 04:10am</td> -->
-<!-- 													<td>Amelia</td> -->
-<!-- 													<td class="text-navy"><i class="fa fa-level-up"></i> 66%</td> -->
-<!-- 												</tr> -->
-<!-- 												<tr> -->
-<!-- 													<td><small>Pending...</small></td> -->
-<!-- 													<td><i class="fa fa-clock-o"></i> 12:08am</td> -->
-<!-- 													<td>Damian</td> -->
-<!-- 													<td class="text-navy"><i class="fa fa-level-up"></i> 23%</td> -->
-<!-- 												</tr> -->
-<!-- 											</tbody> -->
-<!-- 										</table> -->
-<!-- 									</div> -->
-<!-- 								</div> -->
-<!-- 							</div> -->
-<!-- 							<div class="col-lg-6"> -->
-<!-- 								<div class="ibox float-e-margins"> -->
-<!-- 									<div class="ibox-title"> -->
-<!-- 										<h5>Small todo list</h5> -->
-<!-- 										<div class="ibox-tools"> -->
-<!-- 											<a class="collapse-link"> <i class="fa fa-chevron-up"></i> -->
-<!-- 											</a> <a class="close-link"> <i class="fa fa-times"></i> -->
-<!-- 											</a> -->
-<!-- 										</div> -->
-<!-- 									</div> -->
-<!-- 									<div class="ibox-content"> -->
-<!-- 										<ul class="todo-list m-t small-list"> -->
-<!-- 											<li><a href="#" class="check-link"><i -->
-<!-- 													class="fa fa-check-square"></i> </a> <span -->
-<!-- 												class="m-l-xs todo-completed">Buy a milk</span></li> -->
-<!-- 											<li><a href="#" class="check-link"><i class="fa fa-square-o"></i> -->
-<!-- 											</a> <span class="m-l-xs">Go to shop and find some products.</span> -->
-
-<!-- 											</li> -->
-<!-- 											<li><a href="#" class="check-link"><i class="fa fa-square-o"></i> -->
-<!-- 											</a> <span class="m-l-xs">Send documents to Mike</span> <small -->
-<!-- 												class="label label-primary"><i class="fa fa-clock-o"></i> 1 -->
-<!-- 													mins</small></li> -->
-<!-- 											<li><a href="#" class="check-link"><i class="fa fa-square-o"></i> -->
-<!-- 											</a> <span class="m-l-xs">Go to the doctor dr Smith</span></li> -->
-<!-- 											<li><a href="#" class="check-link"><i -->
-<!-- 													class="fa fa-check-square"></i> </a> <span -->
-<!-- 												class="m-l-xs todo-completed">Plan vacation</span></li> -->
-<!-- 											<li><a href="#" class="check-link"><i class="fa fa-square-o"></i> -->
-<!-- 											</a> <span class="m-l-xs">Create new stuff</span></li> -->
-<!-- 											<li><a href="#" class="check-link"><i class="fa fa-square-o"></i> -->
-<!-- 											</a> <span class="m-l-xs">Call to Anna for dinner</span></li> -->
-<!-- 										</ul> -->
-<!-- 									</div> -->
-<!-- 								</div> -->
-<!-- 							</div> -->
-<!-- 						</div> -->
-<!-- 						<div class="row"> -->
-<!-- 							<div class="col-lg-12"> -->
-<!-- 								<div class="ibox float-e-margins"> -->
-<!-- 									<div class="ibox-title"> -->
-<!-- 										<h5>Transactions worldwide</h5> -->
-<!-- 										<div class="ibox-tools"> -->
-<!-- 											<a class="collapse-link"> <i class="fa fa-chevron-up"></i> -->
-<!-- 											</a> <a class="close-link"> <i class="fa fa-times"></i> -->
-<!-- 											</a> -->
-<!-- 										</div> -->
-<!-- 									</div> -->
-<!-- 									<div class="ibox-content"> -->
-
-<!-- 										<div class="row"> -->
-<!-- 											<div class="col-lg-6"> -->
-<!-- 												<table class="table table-hover margin bottom"> -->
-<!-- 													<thead> -->
-<!-- 														<tr> -->
-<!--															<th style="width: 1%" class="text-center">No.</th> -->
-<!-- 															<th>Transaction</th> -->
-<!-- 															<th class="text-center">Date</th> -->
-<!-- 															<th class="text-center">Amount</th> -->
-<!-- 														</tr> -->
-<!-- 													</thead> -->
-<!-- 													<tbody> -->
-<!-- 														<tr> -->
-<!-- 															<td class="text-center">1</td> -->
-<!-- 															<td>Security doors</td> -->
-<!-- 															<td class="text-center small">16 Jun 2014</td> -->
-<!-- 															<td class="text-center"><span class="label label-primary">$483.00</span></td> -->
-
-<!-- 														</tr> -->
-<!-- 														<tr> -->
-<!-- 															<td class="text-center">2</td> -->
-<!-- 															<td>Wardrobes</td> -->
-<!-- 															<td class="text-center small">10 Jun 2014</td> -->
-<!-- 															<td class="text-center"><span class="label label-primary">$327.00</span></td> -->
-
-<!-- 														</tr> -->
-<!-- 														<tr> -->
-<!-- 															<td class="text-center">3</td> -->
-<!-- 															<td>Set of tools</td> -->
-<!-- 															<td class="text-center small">12 Jun 2014</td> -->
-<!-- 															<td class="text-center"><span class="label label-warning">$125.00</span></td> -->
-
-<!-- 														</tr> -->
-<!-- 														<tr> -->
-<!-- 															<td class="text-center">4</td> -->
-<!-- 															<td>Panoramic pictures</td> -->
-<!-- 															<td class="text-center small">22 Jun 2013</td> -->
-<!-- 															<td class="text-center"><span class="label label-primary">$344.00</span></td> -->
-<!-- 														</tr> -->
-<!-- 														<tr> -->
-<!-- 															<td class="text-center">5</td> -->
-<!-- 															<td>Phones</td> -->
-<!-- 															<td class="text-center small">24 Jun 2013</td> -->
-<!-- 															<td class="text-center"><span class="label label-primary">$235.00</span></td> -->
-<!-- 														</tr> -->
-<!-- 														<tr> -->
-<!-- 															<td class="text-center">6</td> -->
-<!-- 															<td>Monitors</td> -->
-<!-- 															<td class="text-center small">26 Jun 2013</td> -->
-<!-- 															<td class="text-center"><span class="label label-primary">$100.00</span></td> -->
-<!-- 														</tr> -->
-<!-- 													</tbody> -->
-<!-- 												</table> -->
-<!-- 											</div> -->
-<!-- 											<div class="col-lg-6"> -->
-<!-- 												<div id="world-map" style="height: 300px;"></div> -->
-<!-- 											</div> -->
-<!-- 										</div> -->
-<!-- 									</div> -->
-<!-- 								</div> -->
-<!-- 							</div> -->
-<!-- 						</div> -->
-
-<!-- 					</div> -->
-
-
-				</div>
-
 			</div>
 
 			<div class="footer">
