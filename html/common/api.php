@@ -5,10 +5,29 @@ if(_any('json'))
 else
 	$inputJSON = file_get_contents('php://input');
 	
-$request= json_decode( $inputJSON, TRUE ); //convert JSON into array
+$request = json_decode($inputJSON, TRUE); //convert JSON into array
 $response = array('status'=>'JSON error');
 
 switch(trim(strtolower($request['action']))) {
+    case "bugzilla":
+        $json = $request;
+        $fixedArr = $json['fixed_arr'];
+        $pendingArr = $json['pending_arr'];
+        $newArr = $json['new_arr'];
+        
+        $data['name'] = "fixed_arr_bugzilla";
+        $data['description'] = $fixedArr;
+        $dao['metrics']->insert($data);
+        $data['name'] = "pending_arr_bugzilla";
+        $data['description'] = $pendingArr;
+        $dao['metrics']->insert($data);
+        $data['name'] = "new_arr_bugzilla";
+        $data['description'] = $newArr;
+        $dao['metrics']->insert($data);
+        $response['status']="OK";
+        $response['msg']="Inserted successfully!";
+        break;
+    
 	case "new_invoice":
 		$id_customer = (isset($_SESSION["id_customer"])?$_SESSION["id_customer"]:0);
 		$id_project = (isset($_SESSION["id_project"])?$_SESSION["id_project"]:0);

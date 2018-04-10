@@ -15,7 +15,7 @@ class Metrics extends Crud{
 							`name` varchar(50) NOT NULL DEFAULT 'undef',
 							`description` text,
 							`unit` varchar(20) NOT NULL DEFAULT 'undef',
-							`value` varchar(10) NOT NULL DEFAULT 'undef',
+							`value` text,
 							`ideal_value` varchar(10) NOT NULL DEFAULT 'undef',
 							`tendency` varchar(10) NOT NULL DEFAULT 'undef',
 							`score_formula` varchar(10) NOT NULL DEFAULT 'undef',

@@ -71,34 +71,37 @@
                 size: 80
             });
 
-            <?php
+<?php
+               $fixedArr = $dao['metrics']->getMetricValuebyName("fixed_arr_bugzilla");
+               $pendingArr = $dao['metrics']->getMetricValuebyName("pending_arr_bugzilla");
+               $newArr = $dao['metrics']->getMetricValuebyName("new_arr_bugzilla");
+               ;
+//             $fixedArr = "[";
+//             $pendingArr = "[";
+//             $newArr = "[";
             
-            $fixedArr = "[";
-            $pendingArr = "[";
-            $newArr = "[";
-            
-            for($i = 30; $i >= 0; $i--) {
-                $date = date('Y-m-d', strtotime("today - $i days"));
-                $fixed = $dao['bugs']->getBugsResolvedbyDay($date);
-                $pending = $dao['bugs']->getOpenBugsCnt($date);
-                $new = $dao['bugs']->getBugsCreatedCntbyDay($date);
-                $gdDate = "gd(".str_replace("-", ",", $date).")";
+//             for($i = 30; $i >= 0; $i--) {
+//                 $date = date('Y-m-d', strtotime("today - $i days"));
+//                 $fixed = $dao['bugs']->getBugsResolvedbyDay($date);
+//                 $pending = $dao['bugs']->getOpenBugsCnt($date);
+//                 $new = $dao['bugs']->getBugsCreatedCntbyDay($date);
+//                 $gdDate = "gd(".str_replace("-", ",", $date).")";
                 
-                $fixedArr .= "[$gdDate, -$fixed]";
-                $pendingArr .= "[$gdDate, $pending]";
-                $newArr .= "[$gdDate, $new]";
-                if($i > 0) {
-                    $fixedArr .= ",";
-                    $pendingArr .= ",";
-                    $newArr .= ",";
-                }
-            }
+//                 $fixedArr .= "[$gdDate, -$fixed]";
+//                 $pendingArr .= "[$gdDate, $pending]";
+//                 $newArr .= "[$gdDate, $new]";
+//                 if($i > 0) {
+//                     $fixedArr .= ",";
+//                     $pendingArr .= ",";
+//                     $newArr .= ",";
+//                 }
+//             }
 
-            $fixedArr .= "];";
-            $pendingArr .= "];";
-            $newArr .= "];";
+//             $fixedArr .= "];";
+//             $pendingArr .= "];";
+//             $newArr .= "];";
             
-            ?>
+?>
             var data1 = <?php echo $fixedArr;?>
             var data2 = <?php echo $pendingArr;?>
             var data3 = <?php echo $newArr;?>
